@@ -2,7 +2,7 @@ const mainContainer = document.createElement("div");
 mainContainer.style.marginLeft = "52px";
 mainContainer.style.marginTop = "28px";
 const userNum = document.createElement("p");
-userNum.textContent = `ALL (56)`;
+userNum.textContent = `ALL (10)`;
 mainContainer.appendChild(userNum);
 ///
 function arrows(parrentDiv, left) {
