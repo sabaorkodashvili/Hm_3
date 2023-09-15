@@ -117,22 +117,37 @@ function getUser(parentDiv, Name, Username, email, phoneNumber, zipCode) {
   div.appendChild(user);
 }
 
-const getData = async () => {
-  try {
-    const result = await fetch("https://jsonplaceholder.typicode.com/users");
-    const data = await result.json();
-    for (let i = 0; i < data.length; i++) {
-      let user = data[i];
-      let Name = user.name;
-      let username = user.username;
-      let Mail = user.email;
-      let phone = user.phone;
-      let zipcode = user.address.zipcode;
-      getUser(mainContainer, Name, username, Mail, phone, zipcode);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-getData();
+function getUserData(url) {
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  })
+    .then((data) => {
+      for (let i = 0; i < data.length; i++) {
+        let user = data[i];
+        let Name = user.name;
+        let username = user.username;
+        let Mail = user.email;
+        let phone = user.phone;
+        let zipcode = user.address.zipcode;
+        getUser(mainContainer, Name, username, Mail, phone, zipcode);
+        console.log(user);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+getUserData("https://jsonplaceholder.typicode.com/users");
 document.body.appendChild(mainContainer);
